@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class AvailabilitiesController < ApplicationController
   def index; end
 
   def show; end

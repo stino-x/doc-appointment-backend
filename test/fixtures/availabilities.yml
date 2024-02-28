@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  day_of_week: 1
+  start_time: 2024-02-28 17:39:33
+  end_time: 2024-02-28 17:39:33
+  teacher: one
+
+two:
+  day_of_week: 1
+  start_time: 2024-02-28 17:39:33
+  end_time: 2024-02-28 17:39:33
+  teacher: two

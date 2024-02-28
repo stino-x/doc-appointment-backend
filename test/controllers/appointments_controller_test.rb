@@ -1,52 +1,38 @@
-require "test_helper"
+require 'test_helper'
 
 class AppointmentsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @appointment = appointments(:one)
-  end
-
-  test "should get index" do
-    get appointments_url
+  test 'should get index' do
+    get appointments_index_url
     assert_response :success
   end
 
-  test "should get new" do
-    get new_appointment_url
+  test 'should get show' do
+    get appointments_show_url
     assert_response :success
   end
 
-  test "should create appointment" do
-    assert_difference("Appointment.count") do
-      post appointments_url,
-           params: { appointment: { end_time: @appointment.end_time, start_time: @appointment.start_time,
-                                    teacher_id: @appointment.teacher_id, user_id: @appointment.user_id } }
-    end
-
-    assert_redirected_to appointment_url(Appointment.last)
-  end
-
-  test "should show appointment" do
-    get appointment_url(@appointment)
+  test 'should get new' do
+    get appointments_new_url
     assert_response :success
   end
 
-  test "should get edit" do
-    get edit_appointment_url(@appointment)
+  test 'should get create' do
+    get appointments_create_url
     assert_response :success
   end
 
-  test "should update appointment" do
-    patch appointment_url(@appointment),
-          params: { appointment: { end_time: @appointment.end_time, start_time: @appointment.start_time,
-                                   teacher_id: @appointment.teacher_id, user_id: @appointment.user_id } }
-    assert_redirected_to appointment_url(@appointment)
+  test 'should get edit' do
+    get appointments_edit_url
+    assert_response :success
   end
 
-  test "should destroy appointment" do
-    assert_difference("Appointment.count", -1) do
-      delete appointment_url(@appointment)
-    end
+  test 'should get update' do
+    get appointments_update_url
+    assert_response :success
+  end
 
-    assert_redirected_to appointments_url
+  test 'should get destroy' do
+    get appointments_destroy_url
+    assert_response :success
   end
 end
