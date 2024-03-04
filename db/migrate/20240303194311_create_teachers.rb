@@ -1,4 +1,4 @@
-class CreateTeachers < ActiveRecord::Migration[7.1]
+class CreateTeachers < ActiveRecord::Migration[7.0]
   def change
     create_table :teachers do |t|
       t.string :name
@@ -7,6 +7,9 @@ class CreateTeachers < ActiveRecord::Migration[7.1]
       t.integer :experience
       t.string :contact_information
       t.text :bio
+      t.boolean  :active, default: true
+      t.references :admin_user, foreign_key: { to_table: :users }
+
       t.timestamps
     end
   end
