@@ -1,6 +1,7 @@
 class Teachers::AvailabilitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_teacher
+  before_action :require_admin, only: %i[new create edit update destroy]
   before_action :set_availability, only: %i[show edit update destroy]
 
   def index
@@ -50,5 +51,12 @@ class Teachers::AvailabilitiesController < ApplicationController
 
   def availability_params
     params.require(:availability).permit(:start_time, :end_time, :date, :day_of_week)
+  end
+
+  def require_admin
+    return if current_user.admin?
+
+    flash[:alert] = 'You must be an admin to perform this action.'
+    redirect_to root_path
   end
 end
