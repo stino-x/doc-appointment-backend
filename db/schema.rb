@@ -10,80 +10,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_03_201523) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_30_193459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "appointments", force: :cascade do |t|
-    t.date "date"
-    t.time "start_time"
-    t.time "end_time"
-    t.string "status"
-    t.bigint "user_id", null: false
-    t.bigint "teacher_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["teacher_id"], name: "index_appointments_on_teacher_id"
-    t.index ["user_id"], name: "index_appointments_on_user_id"
-  end
-
-  create_table "availabilities", force: :cascade do |t|
-    t.bigint "teacher_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.integer "capacity"
-    t.date "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["teacher_id"], name: "index_availabilities_on_teacher_id"
-    t.index ["user_id"], name: "index_availabilities_on_user_id"
-  end
-
-  create_table "teachers", force: :cascade do |t|
+  create_table "doctors", force: :cascade do |t|
     t.string "name"
-    t.string "subject"
-    t.string "image"
-    t.string "qualifications"
-    t.integer "experience"
-    t.string "contact_information"
-    t.text "bio"
-    t.boolean "active", default: true
-    t.bigint "admin_user_id"
+    t.string "picture"
+    t.string "speciality"
+    t.string "email"
+    t.string "phone"
+    t.time "starting_shift"
+    t.time "ending_shift"
+    t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["admin_user_id"], name: "index_teachers_on_admin_user_id"
+    t.index ["created_by_id"], name: "index_doctors_on_created_by_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.integer "day_of_month"
+    t.string "day_of_week"
+    t.integer "start_time"
+    t.integer "end_time"
+    t.integer "month"
+    t.bigint "user_id", null: false
+    t.bigint "doctor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["doctor_id"], name: "index_reservations_on_doctor_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.boolean "allow_password_change", default: false
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name"
-    t.string "nickname"
-    t.string "image"
+    t.string "firstname"
+    t.string "lastname"
+    t.string "role"
     t.string "email"
-    t.boolean "admin", default: false
-    t.json "tokens"
+    t.string "password"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "appointments", "teachers"
-  add_foreign_key "appointments", "users"
-  add_foreign_key "availabilities", "teachers"
-  add_foreign_key "availabilities", "users"
-  add_foreign_key "teachers", "users", column: "admin_user_id"
+  add_foreign_key "doctors", "users", column: "created_by_id"
+  add_foreign_key "reservations", "doctors"
+  add_foreign_key "reservations", "users"
 end

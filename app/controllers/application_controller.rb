@@ -1,22 +1,24 @@
-class ApplicationController < ActionController::Base
-  before_action :configure_permitted_parameters, if: :devise_controller?
+# app/controllers/application_controller.rb
+class ApplicationController < ActionController::API
+  require 'json_web_token'
+  before_action :authorize_request
 
-  include DeviseTokenAuth::Concerns::SetUserByToken
+  private
 
-  protected
+  def authorize_request
+    # Extract JWT token from Authorization header
+    token = request.headers['Authorization']&.split&.last
+    return render json: { error: 'Unauthorized' }, status: :unauthorized unless token
 
-  def configure_permitted_parameters
-    # Permit additional fields for sign-up
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :admin, :nickname, :image])
+    # Decode JWT token to get user ID
+    user_id = JsonWebToken.decode(token)[:user_id]
+    @current_user = User.find_by(id: user_id)
+
+    # Check if user exists
+    render json: { error: 'Unauthorized' }, status: :unauthorized unless @current_user
+  rescue JWT::DecodeError
+    render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 
-  # Add a new action to handle logout
-  def logout
-    # Implement your logout logic here
-    # Typically, you would invalidate the user's authentication token
-    # and sign them out
-    # For Devise Token Auth, you can clear the token as follows:
-    current_user&.tokens&.destroy_all
-    head :no_content
-  end
+  attr_reader :current_user
 end

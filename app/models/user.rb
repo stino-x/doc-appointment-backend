@@ -1,15 +1,33 @@
-class User < ActiveRecord::Base
-  extend Devise::Models
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-  include DeviseTokenAuth::Concerns::User
-  has_many :appointments
+class User < ApplicationRecord
+  has_secure_password
 
-  # Teachers created by this user (admin)
-  has_many :teachers, dependent: :destroy
+  has_many :reservations
+  has_many :doctors, foreign_key: :created_by_id
 
-  # Availabilities created by this user (admin)
-  has_many :availabilities, foreign_key: :admin_user_id, dependent: :destroy
+  validates :firstname, :lastname, :role, :email, presence: true
+
+  # Custom error message for presence validation
+  validates :email, presence: { message: "Email can't be blank" }
+
+  validates :email, uniqueness: { message: 'Email has already been taken' }
+
+  # Custom error message for format validation
+  #   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'Email format is invalid' }
+
+  validates :password, presence: { message: "Password can't be blank" }
+
+  # Custom error message for length validation
+  validates :password, length: { minimum: 6, message: 'Password is too short (minimum is 6 characters)' }
+
+  def can_create_doctors?
+    role == 'admin' # Adjust the condition based on your roles
+  end
+
+  def can_destroy_doctors?
+    role == 'admin' # Adjust the condition based on your roles
+  end
+
+  def reservations_created_under_doctors
+    Reservation.where(doctor_id: doctors.pluck(:id))
+  end
 end
