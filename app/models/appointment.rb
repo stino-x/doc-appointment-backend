@@ -10,8 +10,8 @@ class Appointment < ApplicationRecord
 
   def appointment_time_within_availability
     unless teacher_availabilities.exists? do |availability|
-      availability.start_time <= start_time && #should change <= to == since its a class in the frontend 
-      availability.end_time >= end_time && #should change >= to == since its a class in the frontend 
+      availability.start_time <= start_time && # should change <= to == since its a class in the frontend
+      availability.end_time >= end_time && # should change >= to == since its a class in the frontend
       availability.date == date # Compare date attribute with start_time's date
     end
       errors.add(:base, "Appointment time must fall within teacher's availability")
