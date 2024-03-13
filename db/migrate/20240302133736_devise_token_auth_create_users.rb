@@ -33,7 +33,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[7.0]
       t.string :nickname
       t.string :image
       t.string :email
-      t.boolean :admin, default: false # New column for admin attribute
+      t.boolean :admin, :default => false
 
       ## Tokens
       t.json :tokens

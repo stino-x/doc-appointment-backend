@@ -43,6 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_03_201523) do
   create_table "teachers", force: :cascade do |t|
     t.string "name"
     t.string "subject"
+    t.string "image"
     t.string "qualifications"
     t.integer "experience"
     t.string "contact_information"
