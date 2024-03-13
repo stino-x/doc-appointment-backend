@@ -1,14 +1,13 @@
 class Teachers::AvailabilitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_teacher
-  before_action :set_availability, only: [:show, :edit, :update, :destroy]
+  before_action :set_availability, only: %i[show, edit, update, destroy]
 
   def index
     @availabilities = @teacher.availabilities
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @availability = @teacher.availabilities.new
@@ -24,8 +23,7 @@ class Teachers::AvailabilitiesController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @availability.update(availability_params)
