@@ -6,10 +6,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
   has_many :appointments
-
   # Teachers created by this user (admin)
   has_many :teachers, dependent: :destroy
-
   # Availabilities created by this user (admin)
   has_many :availabilities, foreign_key: :admin_user_id, dependent: :destroy
 end
