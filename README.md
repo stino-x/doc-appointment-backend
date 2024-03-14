@@ -153,6 +153,8 @@ Go to your /doc-appointment-backend folder:
   rails s
 ```
 - SETUP [Front-end](https://github.com/stino-x/doc-appointment) 
+rails db:create, rails db:migrate
+
 
 ```sh
   cd /doc-appointment
