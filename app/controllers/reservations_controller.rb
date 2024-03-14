@@ -44,7 +44,6 @@ class ReservationsController < ApplicationController
     end
   end
 
-
   private
 
   def slot_available?(available_slots, reservation_params)

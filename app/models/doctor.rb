@@ -121,7 +121,6 @@ class Doctor < ApplicationRecord
     }
   end
 
-
   MONTHS = [nil, 'January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'].freeze
 
