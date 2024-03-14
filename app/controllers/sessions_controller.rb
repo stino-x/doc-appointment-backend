@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       token = JsonWebToken.encode(user_id: user.id)
-      render json: {id: user.id, message: 'Login successful', token: }, status: :ok
+      render json: { id: user.id, message: 'Login successful', token: }, status: :ok
     else
       # Debug statement for authentication failure
       Rails.logger.debug("Authentication failed for email: #{params[:email]}")

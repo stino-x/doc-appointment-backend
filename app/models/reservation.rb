@@ -12,7 +12,7 @@ class Reservation < ApplicationRecord
 
   # Method to retrieve reservations made by a specific user
   def self.reservations_by_user(user_id)
-    where(user_id: user_id).map do |reservation|
+    where(user_id:).map do |reservation|
       doctor_namee = reservation.doctor.name
       {
         reservation_id: reservation.id,
